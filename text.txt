@@ -1,0 +1,9 @@
+Packages to Install
+
+pip install SpeechRecognition
+pip install pyttsx3
+pip install PyAudio
+pip install pywhatkit
+
+
+import all Packages including datetime, wikipedia
