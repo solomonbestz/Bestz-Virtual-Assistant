@@ -10,25 +10,32 @@ def talk(text):
     speech_ai.say(text)
 
 def input_instruction():
+    global instruction
+
     try:
         with recognizer.Microphone() as origin:
             print("Listening...")
+            listener.adjust_for_ambient_noise(origin)
             speech = listener.listen(origin)
             instruction = listener.recognize_google(speech)
             print(instruction)
+
             instruction = instruction.lower()
             print(instruction)
 
-            if "Bestz" in instruction:
-                instruction = instruction.replace('Bestz', '')
+            if "Best" in instruction:
+                instruction = instruction.replace('Best', '')
                 print(instruction)
     except:
         pass
     return instruction
 
 def run_bestz():
+    global instruction
+
+
     instruction = input_instruction()
-    print(instruction)
+    
     if "play" in instruction:
         song = instruction.replace('play', '')
         talk(f"playing {song}")
@@ -43,12 +50,14 @@ def run_bestz():
         talk(f'I am fine, and you?')
     elif 'what is your name' in instruction:
         talk('I am bestz, what can i do for you?')
-    elif 'who is' in instruction:
-        human = instruction.replace('who is', " ")
-        info = wikipedia.summary(human, 1)
-        print(info)
-        talk(info)
-
+    elif 'what is' in instruction:
+        try:
+            human = instruction.replace('what is', " ")
+            info = wikipedia.summary(human, 1)
+            print(info)
+            talk(info)
+        except Exception:
+            run_bestz()
     else:
         talk("Please I can't process that instruction yet")
 
